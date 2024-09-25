@@ -114,9 +114,57 @@
 </div>
 
 <script>
-    // Código JavaScript aquí...
+    document.getElementById('clientForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evitar que la página se recargue
+        
+        // Capturar los datos del formulario
+        const cuaderno = document.getElementById('cuaderno').value;
+        const hoja = document.getElementById('hoja').value;
+        const nombre = document.getElementById('nombre').value;
+        const telefono = document.getElementById('telefono').value;
+        const vehiculo = document.getElementById('vehiculo').value;
+        const marca = document.getElementById('marca').value;
+        const placas = document.getElementById('placas').value;
+        const anio = document.getElementById('anio').value;
+        const color = document.getElementById('color').value;
+        const kilometraje = document.getElementById('kilometraje').value;
+        const fecha = document.getElementById('fecha').value;
+        const fechaSalida = document.getElementById('fechaSalida').value;
+        const motivo = document.getElementById('motivo').value;
+
+        // Crear una nueva fila en la tabla
+        const table = document.getElementById('clientTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+
+        newRow.innerHTML = `
+            <td>${cuaderno}</td>
+            <td>${hoja}</td>
+            <td>${vehiculo}</td>
+            <td>${placas}</td>
+            <td>${kilometraje}</td>
+            <td>${nombre}</td>
+            <td>${telefono}</td>
+            <td>${fecha}</td>
+            <td>${fechaSalida}</td>
+            <td>${motivo}</td>
+            <td>${marca}</td>
+            <td>${anio}</td>
+            <td>${color}</td>
+            <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Eliminar</button></td>
+        `;
+
+        // Limpiar el formulario
+        document.getElementById('clientForm').reset();
+    });
+
+    function deleteRow(button) {
+        // Eliminar la fila correspondiente al botón presionado
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
     function exportTableToCSV(filename) {
-        // Implementa la función para exportar la tabla a CSV
+        // Implementar la función para exportar la tabla a CSV
     }
 </script>
 
