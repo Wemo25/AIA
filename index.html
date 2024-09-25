@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Clientes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container-fluid {
+            margin-top: 50px;
+        }
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            .form-group label {
+                font-size: 0.9rem;
+            }
+            .table th, .table td {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <h1 class="text-center">Registro de Clientes</h1>
+    <form id="clientForm">
+        <input type="hidden" id="editIndex" value="-1">
+        <div class="form-group">
+            <label for="cuaderno">Cuaderno</label>
+            <input type="number" class="form-control" id="cuaderno" value="174">
+        </div>
+        <div class="form-group">
+            <label for="hoja">Hoja</label>
+            <input type="number" class="form-control" id="hoja" pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="nombre">Cliente</label>
+            <input type="text" class="form-control" id="nombre">
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="vehiculo">Coche</label>
+            <input type="text" class="form-control" id="vehiculo">
+        </div>
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" class="form-control" id="marca">
+        </div>
+        <div class="form-group">
+            <label for="placas">Placas</label>
+            <input type="text" class="form-control" id="placas">
+        </div>
+        <div class="form-group">
+            <label for="anio">Año</label>
+            <input type="number" class="form-control" id="anio" pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="text" class="form-control" id="color">
+        </div>
+        <div class="form-group">
+            <label for="kilometraje">Kilometraje</label>
+            <input type="number" class="form-control" id="kilometraje" pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha de Entrada</label>
+            <input type="date" class="form-control" id="fecha" pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="fechaSalida">Fecha Salida</label>
+            <input type="date" class="form-control" id="fechaSalida" pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="motivo">¿A qué viene?</label>
+            <textarea class="form-control" id="motivo"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+
+    <h2 class="mt-5">Clientes Registrados</h2>
+    <button class="btn btn-success mb-3" onclick="exportTableToCSV('clientes.csv')">Exportar a CSV</button>
+    <table class="table table-bordered mt-3" id="clientTable">
+        <thead>
+            <tr>
+                <th>Cuaderno</th>
+                <th>Hoja</th>
+                <th>Coche</th>
+                <th>Placas</th>
+                <th>Kilometraje</th>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Fecha de Entrada</th>
+                <th>Fecha Salida</th>
+                <th>¿A qué viene?</th>
+                <th>Marca</th>
+                <th>Año</th>
+                <th>Color</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los registros se agregarán aquí -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const clientForm = document.getElementById('clientForm');
+    const clientTable = document.getElementById('clientTable').getElementsByTagName('tbody')[0];
+    let clients = [];
+    let editIndex = -1; // Para almacenar el índice que se va a editar
+
+    clientForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        const client = {
+            cuaderno: document.getElementById('cuaderno').value,
+            hoja: document.getElementById('hoja').value,
+            coche: document.getElementById('vehiculo').value,
+            placas: document.getElementById('placas').value,
+            kilometraje: document.getElementById('kilometraje').value,
+            cliente: document.getElementById('nombre').value,
+            telefono: document.getElementById('telefono').value,
+            fecha: document.getElementById('fecha').value,
+            fechaSalida: document.getElementById('fechaSalida').value,
+            motivo: document.getElementById('motivo').value,
+            marca: document.getElementById('marca').value,
+            anio: document.getElementById('anio').value,
+            color: document.getElementById('color').value
+        };
+
+        if (editIndex === -1) {
+            // Si no estamos en modo de edición, agregamos el cliente
+            clients.push(client);
+            addClientToTable(client);
+        } else {
+            // Si estamos en modo de edición, actualizamos el cliente
+            clients[editIndex] = client;
+            updateClientTable();
+            editIndex = -1; // Resetear el índice de edición
+            clientForm.querySelector('button[type="submit"]').textContent = 'Registrar'; // Cambiar el botón de nuevo a "Registrar"
+        }
+
+        clientForm.reset(); // Resetea el formulario
+    });
+
+    function addClientToTable(client) {
+        const newRow = clientTable.insertRow();
+        
+        newRow.innerHTML = `
+            <td>${client.cuaderno || ''}</td>
+            <td>${client.hoja || ''}</td>
+            <td>${client.coche || ''}</td>
+            <td>${client.placas || ''}</td>
+            <td>${client.kilometraje || ''}</td>
+            <td>${client.cliente || ''}</td>
+            <td>${client.telefono || ''}</td>
+            <td>${client.fecha || ''}</td>
+            <td>${client.fechaSalida || ''}</td>
+            <td>${client.motivo || ''}</td>
+            <td>${client.marca || ''}</td>
+            <td>${client.anio || ''}</td>
+            <td>${client.color || ''}</td>
+            <td>
+                <button class="btn btn-primary btn-sm" onclick="editClient(${clients.length - 1})">Editar</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteClient(this)">Eliminar</button>
+            </td>
+        `;
+    }
+
+    function updateClientTable() {
+        clientTable.innerHTML = ''; // Limpiar la tabla
+        clients.forEach((client, index) => {
+            const newRow = clientTable.insertRow();
+            newRow.innerHTML = `
+                <td>${client.cuaderno || ''}</td>
+                <td>${client.hoja || ''}</td>
+                <td>${client.coche || ''}</td>
+                <td>${client.placas || ''}</td>
+                <td>${client.kilometraje || ''}</td>
+                <td>${client.cliente || ''}</td>
+                <td>${client.telefono || ''}</td>
+                <td>${client.fecha || ''}</td>
+                <td>${client.fechaSalida || ''}</td>
+                <td>${client.motivo || ''}</td>
+                <td>${client.marca || ''}</td>
+                <td>${client.anio || ''}</td>
+                <td>${client.color || ''}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" onclick="editClient(${index})">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteClient(this)">Eliminar</button>
+                </td>
+            `;
+        });
+    }
+
+    function editClient(index) {
+        const client = clients[index];
+        
+        // Llenar el formulario con los datos del cliente seleccionado
+        document.getElementById('cuaderno').value = client.cuaderno;
+        document.getElementById('hoja').value = client.hoja;
+        document.getElementById('vehiculo').value = client.coche;
+        document.getElementById('placas').value = client.placas;
+        document.getElementById('kilometraje').value = client.kilometraje;
+        document.getElementById('nombre').value = client.cliente;
+        document.getElementById('telefono').value = client.telefono;
+        document.getElementById('fecha').value = client.fecha;
+        document.getElementById('fechaSalida').value = client.fechaSalida;
+        document.getElementById('motivo').value = client.motivo;
+        document.getElementById('marca').value = client.marca;
+        document.getElementById('anio').value = client.anio;
+        document.getElementById('color').value = client.color;
+
+        // Cambiar el índice de edición
+        editIndex = index;
+
+        // Cambiar el texto del botón a "Actualizar"
+        clientForm.querySelector('button[type="submit"]').textContent = 'Actualizar';
+    }
+
+    function deleteClient(button) {
+        const row = button.parentNode.parentNode;
+        const index = row.rowIndex - 1; // Se ajusta para excluir la fila de encabezado
+        clients.splice(index, 1); // Elimina el cliente del array
+        updateClientTable(); // Actualiza la tabla
+    }
+
+    function exportTableToCSV(filename) {
+        const csv = [];
+        const rows = document.querySelectorAll("table tr");
+        
+        for (let i = 0; i < rows.length; i++) {
+            const row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (let j = 0; j < cols.length - 1; j++) { // Ignora la columna de acciones
+                row.push(cols[j].innerText);
+            }
+            
+            csv.push(row.join(","));
+        }
+
+        // Descargar CSV
+        const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+        const downloadLink = document.createElement("a");
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.download = filename;
+        downloadLink.click();
+    }
+</script>
+
+</body>
+</html>
