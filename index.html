@@ -49,4 +49,73 @@
         </div>
         <div class="form-group">
             <label for="vehiculo">Coche</label>
-            
+            <input type="text" class="form-control" id="vehiculo" required>
+        </div>
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" class="form-control" id="marca" required>
+        </div>
+        <div class="form-group">
+            <label for="placas">Placas</label>
+            <input type="text" class="form-control" id="placas" required>
+        </div>
+        <div class="form-group">
+            <label for="anio">Año</label>
+            <input type="number" class="form-control" id="anio" required>
+        </div>
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="text" class="form-control" id="color" required>
+        </div>
+        <div class="form-group">
+            <label for="kilometraje">Kilometraje</label>
+            <input type="number" class="form-control" id="kilometraje" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha de Entrada</label>
+            <input type="date" class="form-control" id="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaSalida">Fecha Salida</label>
+            <input type="date" class="form-control" id="fechaSalida" required>
+        </div>
+        <div class="form-group">
+            <label for="motivo">¿A qué viene?</label>
+            <textarea class="form-control" id="motivo" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+
+    <h2 class="mt-5">Clientes Registrados</h2>
+    <button class="btn btn-success mb-3" onclick="exportTableToCSV('clientes.csv')">Exportar a CSV</button>
+    <table class="table table-bordered mt-3" id="clientTable">
+        <thead>
+            <tr>
+                <th>Cuaderno</th>
+                <th>Hoja</th>
+                <th>Coche</th>
+                <th>Placas</th>
+                <th>Kilometraje</th>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Fecha de Entrada</th>
+                <th>Fecha Salida</th>
+                <th>¿A qué viene?</th>
+                <th>Marca</th>
+                <th>Año</th>
+                <th>Color</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los registros se agregarán aquí -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Código JavaScript aquí...
+</script>
+
+</body>
+</html>
