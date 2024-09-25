@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Clientes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container-fluid {
+            margin-top: 50px;
+        }
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            .form-group label {
+                font-size: 0.9rem;
+            }
+            .table th, .table td {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <h1 class="text-center">Registro de Clientes</h1>
+    <form id="clientForm">
+        <input type="hidden" id="editIndex" value="-1">
+        <div class="form-group">
+            <label for="cuaderno">Cuaderno</label>
+            <input type="text" class="form-control" id="cuaderno" value="174" required>
+        </div>
+        <div class="form-group">
+            <label for="hoja">Hoja</label>
+            <input type="number" class="form-control" id="hoja" required>
+        </div>
+        <div class="form-group">
+            <label for="nombre">Cliente</label>
+            <input type="text" class="form-control" id="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" required pattern="[0-9]*">
+        </div>
+        <div class="form-group">
+            <label for="vehiculo">Coche</label>
+            <input type="text" class="form-control" id="vehiculo" required>
+        </div>
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" class="form-control" id="marca" required>
+        </div>
+        <div class="form-group">
+            <label for="placas">Placas</label>
+            <input type="text" class="form-control" id="placas" required>
+        </div>
+        <div class="form-group">
+            <label for="anio">Año</label>
+            <input type="number" class="form-control" id="anio" required>
+        </div>
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="text" class="form-control" id="color" required>
+        </div>
+        <div class="form-group">
+            <label for="kilometraje">Kilometraje</label>
+            <input type="number" class="form-control" id="kilometraje" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha de Entrada</label>
+            <input type="date" class="form-control" id="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaSalida">Fecha Salida</label>
+            <input type="date" class="form-control" id="fechaSalida" required>
+        </div>
+        <div class="form-group">
+            <label for="motivo">¿A qué viene?</label>
+            <textarea class="form-control" id="motivo" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+
+    <h2 class="mt-5">Clientes Registrados</h2>
+    <button class="btn btn-success mb-3" onclick="exportTableToCSV('clientes.csv')">Exportar a CSV</button>
+    <table class="table table-bordered mt-3" id="clientTable">
+        <thead>
+            <tr>
+                <th>Cuaderno</th>
+                <th>Hoja</th>
+                <th>Coche</th>
+                <th>Placas</th>
+                <th>Kilometraje</th>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Fecha de Entrada</th>
+                <th>Fecha Salida</th>
+                <th>¿A qué viene?</th>
+                <th>Marca</th>
+                <th>Año</th>
+                <th>Color</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los registros se agregarán aquí -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Código JavaScript aquí...
+</script>
+
+</body>
+</html>
